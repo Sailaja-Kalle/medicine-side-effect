@@ -63,7 +63,28 @@ st.divider()
 
 @st.cache_data
 def load_and_train():
+    if not os.path.exists("medicine_data.csv"):
+        import random
+        random.seed(42)
+        np.random.seed(42)
+        medicines = ["Paracetamol","Ibuprofen","Amoxicillin","Metformin","Aspirin",
+                     "Atorvastatin","Omeprazole","Cetirizine","Azithromycin","Lisinopril"]
+        medicine_side_effect_map = {
+            "Paracetamol":"Fatigue","Ibuprofen":"Stomach Pain","Amoxicillin":"Rash",
+            "Metformin":"Nausea","Aspirin":"Stomach Pain","Atorvastatin":"Fatigue",
+            "Omeprazole":"Dry Mouth","Cetirizine":"Drowsiness","Azithromycin":"Vomiting",
+            "Lisinopril":"Dizziness",
+        }
+        rows = []
+        for _ in range(3000):
+            med = random.choice(medicines)
+            rows.append([random.randint(18,80), random.choice(["Male","Female"]),
+                         med, random.choice(["Low","Medium","High"]),
+                         random.randint(1,30), medicine_side_effect_map[med]])
+        pd.DataFrame(rows, columns=["age","gender","medicine","dosage","duration_days","side_effect"]
+                     ).to_csv("medicine_data.csv", index=False)
     df = pd.read_csv("medicine_data.csv")
+    
     le_gender  = LabelEncoder()
     le_med     = LabelEncoder()
     le_dosage  = LabelEncoder()
