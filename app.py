@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 st.set_page_config(page_title="Medicine Side Effect Classifier", page_icon="💊", layout="wide")
 
@@ -84,7 +85,7 @@ def load_and_train():
         pd.DataFrame(rows, columns=["age","gender","medicine","dosage","duration_days","side_effect"]
                      ).to_csv("medicine_data.csv", index=False)
     df = pd.read_csv("medicine_data.csv")
-    
+
     le_gender  = LabelEncoder()
     le_med     = LabelEncoder()
     le_dosage  = LabelEncoder()
